@@ -17,6 +17,7 @@ export const register = async (req: Request, res: Response) => {
         const token = jwt.sign({ _id: user._id }, process.env.SECRET!);
         return res.json({ token, user });
     } catch (err) {
+        console.log(err);
         return res.status(400).json({
             error: 'Email is taken',
         });

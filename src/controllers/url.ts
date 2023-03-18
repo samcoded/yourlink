@@ -60,6 +60,7 @@ export const createUrl = async (req: Request, res: Response) => {
         await newUrl.save();
         res.json(newUrl);
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: 'Server error' });
     }
 };

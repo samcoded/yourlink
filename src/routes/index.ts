@@ -1,15 +1,13 @@
 //create a user login and register route
 import { Router } from 'express';
 import { createUrl } from '../controllers/url';
+import { register, login } from '../controllers/user';
+import { checkToken } from '../middlewares/verifyUser';
 
 const router: Router = Router();
 
-router.get('/register', (req, res) => {
-    res.send('register');
-});
-router.get('/login', (req, res) => {
-    res.send('login');
-});
+router.post('/register', register);
+router.post('/login', login);
+router.post('/shorten', checkToken, createUrl);
 
-router.post('/shorten', createUrl);
 export default router;
