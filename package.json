@@ -5,8 +5,12 @@
   "main": "server.ts",
   "scripts": {
     "start": "node dist/server.js",
-    "build": "npx tsc",
-    "dev": "nodemon src/server.ts",
+    "build_fe": "npm run build --prefix client",
+    "build_be": "npx tsc",
+    "server": "nodemon src/server.ts",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run build_fe && npm run build_be",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'"
   },
   "repository": "git@github.com:samcoded/yourlink.git",
