@@ -12,6 +12,9 @@
   "repository": "git@github.com:samcoded/yourlink.git",
   "author": "Samuel Anozie",
   "license": "ISC",
+  "engines": {
+    "node": "v16.14.0"
+  },
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
