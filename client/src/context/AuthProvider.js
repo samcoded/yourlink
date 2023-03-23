@@ -23,7 +23,7 @@ function getLocalStorage(key, initialValue) {
 
 
 export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState(() => getLocalStorage("auth", {}));
+    const [auth, setAuth] = useState(() => getLocalStorage("auth", null));
 
 
 

@@ -173,7 +173,7 @@ function Main() {
                         </div>
                         <div className="mb-4">
                             <div className="flex justify-between">
-                                <h2 className='text-white mb-1'>Slug: https:yourlink.live/{urlSlug}</h2>
+                                <h2 className='text-white mb-1'>Slug: https://yourlink.live/{urlSlug}</h2>
                                 {slugStatus ? (<span className='text-green-500'>Available</span>) : (urlSlug && <span className='text-red-500'>Not Available</span>)}
                             </div>
                             <label for="slug" className="sr-only">Slug</label>
