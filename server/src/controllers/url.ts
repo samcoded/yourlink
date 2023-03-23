@@ -27,13 +27,16 @@ export const redirectUrl = async (req: Request, res: Response) => {
             });
 
             await newVisit.save();
+
             res.redirect(url.originalUrl);
         } else {
-            res.status(404).json({ error: 'Url not found' });
+            res.redirect('/error');
         }
     } catch (err) {
         console.log(err);
-        res.status(500).json({ error: 'Server error' });
+        res.redirect('/error');
+
+        // res.status(500).json({ error: 'Server error' });
     }
 };
 
