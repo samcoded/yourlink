@@ -39,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
             message: 'User created',
         });
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(400).json({
             success: false,
             message: 'Email is taken',

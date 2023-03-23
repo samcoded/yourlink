@@ -40,23 +40,30 @@ function Register() {
                 password,
                 name,
             }).then(res => {
-                console.log(res.data)
-                alert("Registration Successful")
-                setPassword('')
-                setEmail('')
-                setName('')
+                // console.log(res.data)
 
+                if (res.data.success) {
+                    // alert("Registration Successful")
+                    setPassword('')
+                    setEmail('')
+                    setName('')
+                    setError('')
 
-                console.log(res.data)
-                setAuth({ name: res.data.user.name, id: res.data.user._id, token: res.data.token });
-                // save the token and name in local storage
-                // localStorage.setItem('token', res.data.token)
-                // localStorage.setItem('name', res.data.user.name)
-                // localStorage.setItem('id', res.data.user._id)
-                navigate('/')
+                    // console.log(res.data)
+                    setAuth({ name: res.data.user.name, id: res.data.user._id, token: res.data.token });
+                    // save the token and name in local storage
+                    // localStorage.setItem('token', res.data.token)
+                    // localStorage.setItem('name', res.data.user.name)
+                    // localStorage.setItem('id', res.data.user._id)
+                    navigate('/')
+                }
+                else {
+                    setError(res.data.message)
+                }
             }
             ).catch(err => {
-                console.log(err)
+                // console.log(err)
+                setError(err.response.data.message)
             }
             )
         }

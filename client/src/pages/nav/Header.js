@@ -20,12 +20,14 @@ function Header() {
                 <li>Welcome {auth.name}</li>
                 <li>
                     <Link to="/logout" className="p-3 rounded bg-gray-600 hover:bg-gray-500 mx-5">Logout</Link>
-                </li></>) : (<> <li>
-                    <Link to="/login" className="p-3 rounded bg-gray-600 hover:bg-gray-500 mx-5">Login</Link>
-                </li>
+                </li></>) : (<>
+                    {/* <li>
+                        <Link to="/login" className="p-3 rounded bg-gray-600 hover:bg-gray-500 mx-5">Login</Link>
+                    </li>
                     <li>
                         <Link to="/register" className="p-3 rounded bg-gray-600 hover:bg-gray-500 mx-5">Register</Link>
-                    </li></>)}
+                    </li> */}
+                </>)}
 
         </ul>
     </nav >)

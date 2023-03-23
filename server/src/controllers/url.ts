@@ -35,7 +35,7 @@ export const redirectUrl = async (req: Request, res: Response) => {
             res.redirect('/error');
         }
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.redirect('/error');
     }
 };
@@ -101,7 +101,7 @@ export const getUrls = async (req: Request, res: Response) => {
         // const urls = await Url.find({ user: req.params.id });
         // res.json(urls);
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({ error: 'Server error' });
     }
 };
@@ -118,7 +118,7 @@ export const checkSlug = async (req: Request, res: Response) => {
             res.json({ success: true });
         }
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };

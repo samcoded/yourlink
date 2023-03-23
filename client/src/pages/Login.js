@@ -37,20 +37,27 @@ function Login() {
                 email,
                 password
             }).then(res => {
-                // console.log(res.data)
-                alert("Login Successful")
-                setPassword('')
-                setEmail('')
 
-                setAuth({ name: res.data.user.name, id: res.data.user._id, token: res.data.token });
-                // save the token and name in local storage
-                // localStorage.setItem('token', res.data.token)
-                // localStorage.setItem('name', res.data.user.name)
-                // localStorage.setItem('id', res.data.user._id)
-                navigate('/')
+                if (res.data.success) {
+                    // console.log(res.data)
+                    // alert("Login Successful")
+                    setPassword('')
+                    setEmail('')
+                    setError('')
+                    setAuth({ name: res.data.user.name, id: res.data.user._id, token: res.data.token });
+                    // save the token and name in local storage
+                    // localStorage.setItem('token', res.data.token)
+                    // localStorage.setItem('name', res.data.user.name)
+                    // localStorage.setItem('id', res.data.user._id)
+                    navigate('/')
+                } else {
+                    // console.log(res.data.message)
+                    setError(res.data.message)
+                }
             }
             ).catch(err => {
-                console.log(err)
+                // console.log(err)
+                setError(err.response.data.message)
             }
             )
 

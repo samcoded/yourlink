@@ -10,11 +10,11 @@ function UrlRedirect() {
     React.useEffect(() => {
         axios.get(`/api/${slug}`)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 window.location.href = res.data.url
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
             })
     }, [slug])
 

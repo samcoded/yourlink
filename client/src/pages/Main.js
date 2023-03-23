@@ -49,7 +49,7 @@ function Main() {
     )
     React.useEffect(() => {
         if (loggedIn) {
-            console.log("user id", userId)
+            // console.log("user id", userId)
             axios.get(`/api/urls/${userId}`, {
                 headers: {
                     'Authorization': 'Bearer ' + userToken
@@ -58,7 +58,7 @@ function Main() {
                 // console.log(res)
                 setUrls(res.data)
             }).catch(err => {
-                console.log(err)
+                // console.log(err)
             }
             )
         }
@@ -75,7 +75,7 @@ function Main() {
                     setSlugStatus(false)
                 }
             }).catch(err => {
-                console.log(err)
+                // console.log(err)
             }
             )
         }
@@ -85,7 +85,7 @@ function Main() {
         e.preventDefault()
         if (validate()) {
 
-            console.log("token", userToken)
+            // console.log("token", userToken)
             axios.post('/api/shorten', {
                 originalUrl,
                 urlSlug: urlSlug.trim()
@@ -97,7 +97,7 @@ function Main() {
 
                 if (res.data.success) {
 
-                    console.log(res)
+                    // console.log(res)
                     // alert("URL Shortened")
                     setNewOriginalUrl(res.data.originalUrl)
                     setNewUrlSlug(res.data.urlSlug)
@@ -112,7 +112,8 @@ function Main() {
                 }
             }
             ).catch(err => {
-                console.log(err)
+                // console.log(err)
+                setError(err.response.data.message)
             }
             )
         }
@@ -214,7 +215,7 @@ function Main() {
             {loggedIn && (<div className="flex justify-center overflow-x">
                 <div className="w-1/2 bg-gray-800 p-6 rounded-lg mt-2">
                     <h1 className="text-2xl text-white mb-5">Shortened URLs</h1>
-                    <table className="table-auto text-white table-auto overflow-scroll w-full">
+                    {urls ? <table className="table-auto text-white table-auto overflow-scroll w-full">
                         <thead>
                             <tr>
                                 <th className="px-4 py-2">Original URL</th>
@@ -242,7 +243,8 @@ function Main() {
                                 }
                             )}
                         </tbody>
-                    </table>
+                    </table> : <h2>Loading...</h2>
+                    }
                 </div>
             </div>)
             }

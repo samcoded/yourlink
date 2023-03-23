@@ -6,7 +6,7 @@ export const getIpLocation = async (ipAddress: string) => {
         const location = await iplocate(ipAddress);
         return location;
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         return {};
     }
 };
