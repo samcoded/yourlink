@@ -67,3 +67,20 @@ export const createUrl = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+export const getUrls = async (req: Request, res: Response) => {
+    try {
+        if (req.params.logged_user_id == req.params.id) {
+            const urls = await Url.find({ user: req.params.logged_user_id });
+            res.json(urls);
+        } else {
+            res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        // const urls = await Url.find({ user: req.params.id });
+        // res.json(urls);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+};

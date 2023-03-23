@@ -14,7 +14,7 @@ export const register = async (req: Request, res: Response) => {
 
         user.password = await hashPassword(user.password);
         await user.save();
-        const token = jwt.sign({ _id: user._id }, process.env.SECRET!);
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!);
         return res.json({ token, user });
     } catch (err) {
         console.log(err);

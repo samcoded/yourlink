@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from '../api/axios';
 import { useNavigate, Link } from 'react-router-dom';
+import AuthContext from "../context/AuthProvider";
 
 
 
@@ -10,6 +11,9 @@ function Register() {
     const [password, setPassword] = React.useState('')
     const [name, setName] = React.useState('')
     const navigate = useNavigate();
+    const { setAuth } = React.useContext(AuthContext);
+
+
 
 
     const handleSubmit = async (e) => {
@@ -27,9 +31,13 @@ function Register() {
             setEmail('')
             setName('')
 
+
+            console.log(res.data)
+            setAuth({ name: res.data.user.name, id: res.data.user._id, token: res.data.token });
             // save the token and name in local storage
-            localStorage.setItem('token', res.data.token)
-            localStorage.setItem('name', res.data.user.name)
+            // localStorage.setItem('token', res.data.token)
+            // localStorage.setItem('name', res.data.user.name)
+            // localStorage.setItem('id', res.data.user._id)
             navigate('/')
         }
         ).catch(err => {
@@ -40,10 +48,6 @@ function Register() {
 
 
     return (
-
-
-
-
         <div className="container mx-auto">
             <div className="flex justify-center">
                 <div className="w-1/2 bg-gray-800 p-6 rounded-lg mt-2">

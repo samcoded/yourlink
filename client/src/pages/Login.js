@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from '../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import AuthContext from "../context/AuthProvider";
 
 
 
@@ -9,6 +10,8 @@ function Login() {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const navigate = useNavigate();
+    const { setAuth } = React.useContext(AuthContext);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -16,13 +19,16 @@ function Login() {
             email,
             password
         }).then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             alert("Login Successful")
             setPassword('')
             setEmail('')
+
+            setAuth({ name: res.data.user.name, id: res.data.user._id, token: res.data.token });
             // save the token and name in local storage
-            localStorage.setItem('token', res.data.token)
-            localStorage.setItem('name', res.data.user.name)
+            // localStorage.setItem('token', res.data.token)
+            // localStorage.setItem('name', res.data.user.name)
+            // localStorage.setItem('id', res.data.user._id)
             navigate('/')
         }
         ).catch(err => {
@@ -33,15 +39,36 @@ function Login() {
 
 
     return (
-        <div>
-            <h1 className=''>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <input type='text' name='email' placeholder='Enter your email' onChange={(e) => {
-                    setEmail(e.target.value)
-                }} value={email} />
-                <input type='password' name='password' placeholder='Enter your password' onChange={(e) => { setPassword(e.target.value) }} value={password} />
-                <button type='submit' >Login</button>
-            </form>
+
+        <div className="container mx-auto">
+            <div className="flex justify-center">
+                <div className="w-1/2 bg-gray-800 p-6 rounded-lg mt-2">
+                    <h1 className="text-2xl text-white mb-5">Login</h1>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <label for="email" className="sr-only">Email</label>
+                            <input type="text" name="email" id="email" placeholder="Email" className="bg-gray-700 border-2 p-4 rounded-lg w-full text-white" onChange={(e) => {
+                                setEmail(e.target.value)
+                            }} value={email} />
+                        </div>
+                        <div className="mb-4">
+                            <label for="password" className="sr-only">Password</label>
+                            <input type="password" name="password" id="password" placeholder="Password" className="bg-gray-700 border-2 p-4 rounded-lg w-full text-white" onChange={(e) => { setPassword(e.target.value) }} value={password} />
+                        </div>
+                        <div>
+                            <button type="submit" className="bg-blue-500 text-white px-4 py-3 rounded font-medium w-full hover:bg-blue-300">Login</button>
+                        </div>
+
+                        <div className="mt-3">
+                            <Link className="text-white text-underline text-white hover:text-gray-300 " to="/login">
+                                Don't have an account? Sign up now
+                            </Link>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
         </div>
     )
 }
