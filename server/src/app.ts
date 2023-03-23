@@ -34,6 +34,11 @@ app.get('/error', (req, res) => {
         path.resolve(__dirname, '..', '..', 'client', 'build', 'index.html')
     );
 });
+app.get('/logout', (req, res) => {
+    res.sendFile(
+        path.resolve(__dirname, '..', '..', 'client', 'build', 'index.html')
+    );
+});
 
 app.use('/api', routes);
 

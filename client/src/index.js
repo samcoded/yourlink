@@ -7,6 +7,7 @@ import Header from './pages/nav/Header';
 import Footer from './pages/nav/Footer';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Logout from './pages/Logout';
 // import UrlRedirect from './pages/UrlRedirect';
 import Error from './pages/Error';
 
@@ -22,6 +23,7 @@ root.render(
           <Route exact path="/" element={<Main />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="logout" element={<Logout />} />
           {/* <Route path="/:slug" element={<UrlRedirect />} /> */}
           <Route path="error" element={<Error />} />
         </Routes>
