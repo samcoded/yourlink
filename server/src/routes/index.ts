@@ -1,6 +1,6 @@
 //create a user login and register route
 import { Router } from 'express';
-import { createUrl, getUrls } from '../controllers/url';
+import { createUrl, getUrls, checkSlug } from '../controllers/url';
 import { register, login } from '../controllers/user';
 import { checkToken } from '../middlewares/verifyUser';
 // import { redirectUrl } from '../controllers/url';
@@ -14,6 +14,7 @@ router.post('/register', register);
 router.post('/login', login);
 router.post('/shorten', checkToken, createUrl);
 router.get('/urls/:id', checkToken, getUrls);
+router.get('/check/:urlSlug', checkSlug);
 
 // router.get('/:urlSlug', redirectUrl);
 

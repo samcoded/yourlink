@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from '../api/axios';
+import validator from "validator";
+
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 
@@ -16,9 +18,23 @@ function Main() {
     const { auth } = React.useContext(AuthContext);
     const [userToken, setUserToken] = React.useState('')
     const [userId, setUserId] = React.useState('')
-
-
     const [urls, setUrls] = React.useState([])
+    const [error, setError] = React.useState('');
+    const [slugStatus, setSlugStatus] = React.useState(false);
+
+    const validate = () => {
+        if (originalUrl === '' || urlSlug === '') {
+            setError('Please fill all the fields')
+            return false
+        }
+
+        if (!validator.isURL(originalUrl)) {
+            setError('Please enter a valid url')
+            return false
+        }
+        return true
+    }
+
 
 
     React.useEffect(() => {
@@ -48,32 +64,86 @@ function Main() {
         }
     }, [loggedIn, newOriginalUrl, newUrlSlug, userId, userToken])
 
+    React.useEffect(() => {
+
+        if (urlSlug !== '') {
+            axios.get(`/api/check/${urlSlug}`).then(res => {
+                if (res.data.success) {
+                    setSlugStatus(true)
+                }
+                else {
+                    setSlugStatus(false)
+                }
+            }).catch(err => {
+                console.log(err)
+            }
+            )
+        }
+    }, [urlSlug])
+
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if (validate()) {
 
+            console.log("token", userToken)
+            axios.post('/api/shorten', {
+                originalUrl,
+                urlSlug: urlSlug.trim()
+            }, {
+                headers: {
+                    'Authorization': 'Bearer ' + userToken
+                }
+            }).then(res => {
 
-        console.log("token", userToken)
-        axios.post('/api/shorten', {
-            originalUrl,
-            urlSlug
-        }, {
-            headers: {
-                'Authorization': 'Bearer ' + userToken
+                if (res.data.success) {
+
+                    console.log(res)
+                    // alert("URL Shortened")
+                    setNewOriginalUrl(res.data.originalUrl)
+                    setNewUrlSlug(res.data.urlSlug)
+                    setOriginalUrl('')
+                    setUrlSlug('')
+                    setError('')
+                    setShowPrompt(true)
+                }
+
+                else {
+                    setError(res.data.message)
+                }
             }
-        }).then(res => {
-            console.log(res)
-            // alert("URL Shortened")
-            setNewOriginalUrl(res.data.originalUrl)
-            setNewUrlSlug(res.data.urlSlug)
-            setOriginalUrl('')
-            setUrlSlug('')
-            setShowPrompt(true)
+            ).catch(err => {
+                console.log(err)
+            }
+            )
         }
-        ).catch(err => {
-            console.log(err)
-        }
-        )
+    }
 
+
+    const slugify = str =>
+        str
+            .trim()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/[\s_-]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+
+    const genRandom = () => {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const length = 7;
+        let result = ' ';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+
+        return result.trim();
+    }
+
+    const copyClipboard = (data) => {
+        navigator.clipboard.writeText(data).then(function () {
+            alert("Copied to clipboard")
+        }, function () {
+            alert("Failed to copy to clipboard")
+        });
     }
 
 
@@ -91,19 +161,31 @@ function Main() {
                     </div>)}
 
                     <form onSubmit={handleSubmit}>
+                        {error && <h2 className='text-red-500 mb-3'>{error}</h2>}
                         <div className="mb-4">
+                            <h2 className='text-white mb-3'>URL</h2>
                             <label for="url" className="sr-only">URL</label>
                             <input type="text" name="url" id="url" placeholder="URL" className="bg-gray-700 border-2 p-4 rounded-lg w-full text-white" onChange={(e) => {
                                 setOriginalUrl(e.target.value)
                                 setShowPrompt(false)
-                            }} value={originalUrl} />
+                            }} value={originalUrl} required maxLength={40} minLength={4} />
                         </div>
                         <div className="mb-4">
+                            <div className="flex justify-between">
+                                <h2 className='text-white mb-1'>Slug: https:yourlink.live/{urlSlug}</h2>
+                                {slugStatus ? (<span className='text-green-500'>Available</span>) : (urlSlug && <span className='text-red-500'>Not Available</span>)}
+                            </div>
                             <label for="slug" className="sr-only">Slug</label>
-                            <input type="text" name="slug" id="slug" placeholder="Slug" className="bg-gray-700 border-2 p-4 rounded-lg w-full text-white" onChange={(e) => {
-                                setUrlSlug(e.target.value)
+                            <div className="flex justify-between"> <input type="text" name="slug" id="slug" placeholder="" className="bg-gray-700 border-2 p-4 rounded-lg w-full text-white" onChange={(e) => {
+                                setUrlSlug(slugify(e.target.value))
                                 setShowPrompt(false)
-                            }} value={urlSlug} />
+                            }} value={urlSlug} required maxLength={40} minLength={4} />
+                                <button className="bg-blue-500 text-white p-1 m-2 rounded font-medium hover:bg-blue-300" onClick={(e) => {
+                                    e.preventDefault()
+                                    setUrlSlug(genRandom())
+                                }}>Generate</button>
+                            </div>
+
                         </div>
                         <div>
                             <button type="submit" className="bg-blue-500 text-white px-4 py-3 hover:bg-blue-300 rounded font-medium w-full">Shorten</button>
@@ -117,7 +199,10 @@ function Main() {
                         <p>URL Shortened !!!!</p>
                         <p>Original: {newOriginalUrl}</p>
                         <p>Short URL: http://yourlink.live/{newUrlSlug} </p>
-                        <button className="bg-blue-500 text-white p-1 m-3 rounded font-medium hover:bg-blue-300">Copy</button>
+                        <button className="bg-blue-500 text-white p-1 m-3 rounded font-medium hover:bg-blue-300" onClick={(e) => {
+                            e.preventDefault()
+                            copyClipboard(`https://yourlink.live/${newUrlSlug}`)
+                        }}>Copy</button>
                     </div>)}
                 </div>
             </div>
@@ -142,9 +227,14 @@ function Main() {
                                 (url, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td className="border px-4 py-2">{url.originalUrl}</td>
-                                            <td className="border px-4 py-2">http://yourlink.live/{url.urlSlug}
-                                                <button className="bg-blue-500 text-white p-1 rounded font-medium hover:bg-blue-300 ml-3">Copy</button>
+                                            <td className="border px-2 py-2">{url.originalUrl}</td>
+
+                                            <td className="border px-2 py-2 flex justify-between">
+                                                <span>http://yourlink.live/{url.urlSlug}</span>
+                                                <button className="bg-blue-500 text-white p-1 rounded font-medium hover:bg-blue-300 ml-3" onClick={(e) => {
+                                                    e.preventDefault()
+                                                    copyClipboard(`https://yourlink.live/${url.urlSlug}`)
+                                                }}>Copy</button>
                                             </td>
 
                                         </tr>
