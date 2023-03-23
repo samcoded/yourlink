@@ -91,7 +91,7 @@ function Login() {
                         </div>
 
                         <div className="mt-3">
-                            <Link className="text-white text-underline text-white hover:text-gray-300 " to="/login">
+                            <Link className="text-white text-underline text-white hover:text-gray-300 " to="/register">
                                 Don't have an account? Sign up now
                             </Link>
                         </div>
