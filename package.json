@@ -9,7 +9,7 @@
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npx tsc",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
+    "heroku-postbuild": "npm run build && cd client && npm install --only=dev && npm install && npm run build",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'"
   },
   "repository": "git@github.com:samcoded/yourlink.git",
