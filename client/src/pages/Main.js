@@ -204,11 +204,11 @@ function Main() {
                             <input type="text" name="url" id="url" placeholder="URL" className="bg-gray-700 border-2 p-4 rounded-lg w-full text-white" onChange={(e) => {
                                 setOriginalUrl(e.target.value)
                                 setShowPrompt(false)
-                            }} value={originalUrl} required maxLength={40} minLength={4} />
+                            }} value={originalUrl} required minLength={4} />
                         </div>
                         <div className="mb-4">
                             <div className="flex justify-between">
-                                <h2 className='text-white mb-1'>Slug: https://yourlink.live/{urlSlug}</h2>
+                                <h2 className='text-white mb-1'>Slug: http://yourlink.live/{urlSlug}</h2>
                                 {slugStatus ? (<span className='text-green-500'>Available</span>) : (urlSlug && <span className='text-red-500'>Not Available</span>)}
                             </div>
                             <label for="slug" className="sr-only">Slug</label>
@@ -237,7 +237,7 @@ function Main() {
                         <p>Short URL: http://yourlink.live/{newUrlSlug} </p>
                         <button className="bg-blue-500 text-white p-1 m-3 rounded font-medium hover:bg-blue-300" onClick={(e) => {
                             e.preventDefault()
-                            copyClipboard(`https://yourlink.live/${newUrlSlug}`)
+                            copyClipboard(`http://yourlink.live/${newUrlSlug}`)
                         }}>Copy</button>
                     </div>)}
                 </div>
@@ -269,7 +269,7 @@ function Main() {
                                                 <span>http://yourlink.live/{url.urlSlug}</span>
                                                 <button className="bg-blue-500 text-white p-1 rounded font-medium hover:bg-blue-300 ml-3" onClick={(e) => {
                                                     e.preventDefault()
-                                                    copyClipboard(`https://yourlink.live/${url.urlSlug}`)
+                                                    copyClipboard(`http://yourlink.live/${url.urlSlug}`)
                                                 }}>Copy</button>
                                             </td>
 
