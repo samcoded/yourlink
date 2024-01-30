@@ -208,7 +208,7 @@ function Main() {
                         </div>
                         <div className="mb-4">
                             <div className="flex justify-between">
-                                <h2 className='text-white mb-1'>Slug: http://yourlink.live/{urlSlug}</h2>
+                                <h2 className='text-white mb-1'>Slug: https://yourlink.herokuapp.com/{urlSlug}</h2>
                                 {slugStatus ? (<span className='text-green-500'>Available</span>) : (urlSlug && <span className='text-red-500'>Not Available</span>)}
                             </div>
                             <label for="slug" className="sr-only">Slug</label>
@@ -234,10 +234,10 @@ function Main() {
                     {showPrompt && (<div className="bg-gray-600 rounded px-4 py-2 m-5 text-white">
                         <p>URL Shortened !!!!</p>
                         <p>Original: {newOriginalUrl}</p>
-                        <p>Short URL: http://yourlink.live/{newUrlSlug} </p>
+                        <p>Short URL: https://yourlink.herokuapp.com/{newUrlSlug} </p>
                         <button className="bg-blue-500 text-white p-1 m-3 rounded font-medium hover:bg-blue-300" onClick={(e) => {
                             e.preventDefault()
-                            copyClipboard(`http://yourlink.live/${newUrlSlug}`)
+                            copyClipboard(`https://yourlink.herokuapp.com/${newUrlSlug}`)
                         }}>Copy</button>
                     </div>)}
                 </div>
@@ -266,10 +266,10 @@ function Main() {
                                             <td className="border px-2 py-2">{url.originalUrl}</td>
 
                                             <td className="border px-2 py-2 flex justify-between">
-                                                <span>http://yourlink.live/{url.urlSlug}</span>
+                                                <span>https://yourlink.herokuapp.com/{url.urlSlug}</span>
                                                 <button className="bg-blue-500 text-white p-1 rounded font-medium hover:bg-blue-300 ml-3" onClick={(e) => {
                                                     e.preventDefault()
-                                                    copyClipboard(`http://yourlink.live/${url.urlSlug}`)
+                                                    copyClipboard(`https://yourlink.herokuapp.com/${url.urlSlug}`)
                                                 }}>Copy</button>
                                             </td>
 
